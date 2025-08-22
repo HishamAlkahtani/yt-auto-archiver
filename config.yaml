@@ -1,0 +1,6 @@
+download_path: "~/downloads"
+
+cookies:
+  enabled: true
+  browser: firefox
+

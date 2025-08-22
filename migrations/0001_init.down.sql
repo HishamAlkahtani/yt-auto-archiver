@@ -1,0 +1,3 @@
+DROP INDEX IF EXISTS pending_vids;
+DROP TABLE IF EXISTS videos;
+DROP TABLE IF EXISTS channels;
