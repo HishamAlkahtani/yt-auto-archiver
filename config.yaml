@@ -1,6 +1,11 @@
 download_path: "~/downloads"
 
-cookies:
+browser_cookies:
   enabled: true
   browser: firefox
 
+daily_limits:
+  max_vids: 50
+  max_data:
+    unit: GB
+    amount: 5
