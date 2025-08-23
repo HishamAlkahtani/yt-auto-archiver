@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os/exec"
 	"regexp"
+	"strings"
 	"time"
 )
 
@@ -32,7 +33,37 @@ func NewYtClient(browserName string) (*YtClient, error) {
 	return &YtClient{}, nil
 }
 
-func (c *YtClient) GetVideoIds(channelId string) []string {
-	// TODO
-	return []string{}
+func (c *YtClient) GetVideoIds(channelId string) ([]string, error) {
+	link := fmt.Sprintf("https://www.youtube.com/@%s/videos", channelId)
+
+	result, err := c.executeYdlp("--flat-playlist", "--print", "id", link)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to GetVideoIds: %w", err)
+	}
+
+	lines := strings.Split(result, "\n")
+	lines = lines[:len(lines)-1]
+
+	return lines, nil
+}
+
+func (c *YtClient) executeYdlp(args ...string) (string, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Minute)
+	defer cancel()
+
+	if c.browserCookies {
+		args = append(args, "--cookies-from-browser")
+		args = append(args, c.browserName)
+	}
+
+	// TODO: before execution, log the whole command
+
+	output, err := exec.CommandContext(ctx, "yt-dlp", args...).Output()
+
+	if err != nil {
+		return "", fmt.Errorf("failed to execute ytdlp command: %w", err)
+	}
+
+	return string(output), nil
 }
