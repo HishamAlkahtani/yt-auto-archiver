@@ -4,17 +4,20 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/zap"
 )
 
 func Test_YTDLPSetup(t *testing.T) {
-	_, err := NewYtClient("firefox")
+	log, _ := zap.NewDevelopment()
+	_, err := NewYtClient(nil, log.Sugar())
 	if err != nil {
 		t.Error(err)
 	}
 }
 
 func Test_getChannelIds(t *testing.T) {
-	client, _ := NewYtClient("firefox")
+	log, _ := zap.NewDevelopment()
+	client, _ := NewYtClient(nil, log.Sugar())
 
 	// idek what this channel is, let's just hope
 	// they keep their promise or this test will break.

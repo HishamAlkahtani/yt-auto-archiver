@@ -7,14 +7,17 @@ import (
 	"regexp"
 	"strings"
 	"time"
+
+	"go.uber.org/zap"
 )
 
 type YtClient struct {
 	browserCookies bool
-	browserName    string
+	browserName    *string
+	log            *zap.SugaredLogger
 }
 
-func NewYtClient(browserName string) (*YtClient, error) {
+func NewYtClient(browserName *string, log *zap.SugaredLogger) (*YtClient, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -30,7 +33,17 @@ func NewYtClient(browserName string) (*YtClient, error) {
 		return nil, fmt.Errorf("yt-dlp --version returned unexpected output: %s", string(output))
 	}
 
-	return &YtClient{}, nil
+	var browserCookies bool = false
+
+	if browserName != nil {
+		browserCookies = true
+	}
+
+	return &YtClient{
+		browserName:    browserName,
+		browserCookies: browserCookies,
+		log:            log,
+	}, nil
 }
 
 func (c *YtClient) GetVideoIds(channelId string) ([]string, error) {
@@ -54,10 +67,10 @@ func (c *YtClient) executeYdlp(args ...string) (string, error) {
 
 	if c.browserCookies {
 		args = append(args, "--cookies-from-browser")
-		args = append(args, c.browserName)
+		args = append(args, *c.browserName)
 	}
 
-	// TODO: before execution, log the whole command
+	c.log.Debugf("yt-dlp %s", strings.Join(args, " "))
 
 	output, err := exec.CommandContext(ctx, "yt-dlp", args...).Output()
 
