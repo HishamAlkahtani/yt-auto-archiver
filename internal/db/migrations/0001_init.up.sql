@@ -14,5 +14,7 @@ CREATE TABLE
     );
 
 CREATE INDEX pending_vids ON videos (channel_id)
-WHERE
-    status = 'pending';
+WHERE status = 'pending';
+
+CREATE INDEX monitoring_channels ON channels (status, last_check)
+WHERE status = 'monitoring';
