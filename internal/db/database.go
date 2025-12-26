@@ -2,14 +2,12 @@ package db
 
 import (
 	"database/sql"
-	"embed"
 	"fmt"
 	"os"
 	"path/filepath"
-)
 
-//go:embed migrations/*.sql
-var migrationFs embed.FS
+	_ "github.com/mattn/go-sqlite3"
+)
 
 type DB struct {
 	*sql.DB
@@ -33,31 +31,29 @@ func NewDB(dbPath string) (*DB, error) {
 		return nil, fmt.Errorf("failed to ping database: %w", err)
 	}
 
-	if err := runMigrations(sqlDb); err != nil {
-		sqlDb.Close()
-		return nil, fmt.Errorf("failed to apply migrations: %w", err)
-	}
-
 	return &DB{DB: sqlDb}, nil
 }
 
-func runMigrations(db *sql.DB) error {
-	// // dbDriver, err := sqlite3.WithInstance(db, &sqlite3.Config{})
+func (db *DB) UpdateVideo(vid *Video) error {
+	return nil
+}
 
-	// if err != nil {
-	// 	return fmt.Errorf("failed to create database driver: %w", err)
-	// }
+func (db *DB) GetVideosByChannelAndStatus(channelId string, status VideoStatus) ([]Video, error) {
+	return nil, nil
+}
 
-	// migrator, err := migrate.NewWithDatabaseInstance()
+func (db *DB) GetVideosByChannel(channelId string) ([]Video, error) {
+	return nil, nil
+}
 
-	// if err != nil {
-	// 	return fmt.Errorf("failed to create migrator: %w", err)
-	// }
-	// defer migrator.Close()
+func (db *DB) GetVideo(videoId string) (*Video, error) {
+	return nil, nil
+}
 
-	// if err := migrator.Up(); err != nil && err != migrate.ErrNoChange {
-	// 	return fmt.Errorf("failed to run migrations: %W", err)
-	// }
+func (db *DB) UpdateChannel(channel *Channel) error {
+	return nil
+}
 
-	// return nil
+func (db *DB) GetChannel(channelId string) (*Channel, error) {
+	return nil, nil
 }

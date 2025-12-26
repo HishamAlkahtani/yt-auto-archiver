@@ -17,6 +17,13 @@ type YtClient struct {
 	log            *zap.SugaredLogger
 }
 
+type ytDlpOutput struct {
+	exitCode int
+	stdout   string
+	stderr   string
+}
+
+// TODO: refactor this to use ytDlpOutput
 func NewYtClient(browserName *string, log *zap.SugaredLogger) (*YtClient, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -46,6 +53,7 @@ func NewYtClient(browserName *string, log *zap.SugaredLogger) (*YtClient, error)
 	}, nil
 }
 
+// TODO: refactor this to use ytDlpOutput
 func (c *YtClient) GetVideoIds(channelId string) ([]string, error) {
 	link := fmt.Sprintf("https://www.youtube.com/@%s/videos", channelId)
 
@@ -55,13 +63,14 @@ func (c *YtClient) GetVideoIds(channelId string) ([]string, error) {
 		return nil, fmt.Errorf("failed to GetVideoIds: %w", err)
 	}
 
-	lines := strings.Split(result, "\n")
+	lines := strings.Split(result.stdout, "\n")
 	lines = lines[:len(lines)-1]
 
 	return lines, nil
 }
 
-func (c *YtClient) executeYdlp(args ...string) (string, error) {
+// TODO: refactor this to properly return ytDlpOutput
+func (c *YtClient) executeYdlp(args ...string) (*ytDlpOutput, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Minute)
 	defer cancel()
 
@@ -75,8 +84,14 @@ func (c *YtClient) executeYdlp(args ...string) (string, error) {
 	output, err := exec.CommandContext(ctx, "yt-dlp", args...).Output()
 
 	if err != nil {
-		return "", fmt.Errorf("failed to execute ytdlp command: %w", err)
+		return nil, fmt.Errorf("failed to execute ytdlp command: %w", err)
 	}
 
-	return string(output), nil
+	// TODO: what is exitCode doing here?
+	// if exitCode other than 0 will be handled here and not returned
+	// then it doen't make sense to have it in ytDlpOutput
+	return &ytDlpOutput{
+		exitCode: 0,
+		stdout:   string(output),
+	}, nil
 }

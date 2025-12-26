@@ -19,8 +19,9 @@ func Test_getChannelIds(t *testing.T) {
 	log, _ := zap.NewDevelopment()
 	client, _ := NewYtClient(nil, log.Sugar())
 
-	// idek what this channel is, let's just hope
-	// they keep their promise or this test will break.
+	// This channel is used because it says in the description
+	// that no more videos will be uploaded (or deleted I hope) let's hope that remains
+	// true, or this test will break.
 	vids, err := client.GetVideoIds("YumYumRainbows")
 
 	assert.Nil(t, err)
