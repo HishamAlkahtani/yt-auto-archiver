@@ -1,4 +1,4 @@
-package monitorer
+package main
 
 import "fmt"
 

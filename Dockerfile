@@ -8,11 +8,9 @@ RUN go mod download
 
 COPY . .
 
-ENV GOOS=linux
 ENV CGO_ENABLED=0
-ENV GOARCH=amd64
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./bin/monitorer ./cmd/monitorer
+RUN go build -o ./bin/monitorer ./cmd/monitorer
 RUN chmod +x ./bin/monitorer
 
 RUN go build -o ./bin/archiver ./cmd/archiver
