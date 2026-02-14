@@ -7,6 +7,7 @@ import (
 	"go.uber.org/zap"
 )
 
+// TODO: containerize. make it work in the container. i don't think yt-dlp is there currently.
 func Test_YTDLPSetup(t *testing.T) {
 	log, _ := zap.NewDevelopment()
 	_, err := NewYtClient(nil, log.Sugar())

@@ -1,7 +1,6 @@
 package http
 
 import (
-	"github.com/HishamAlkahtani/yt-auto-archiver/internal/db"
 	"github.com/gin-gonic/gin"
 )
 
@@ -22,9 +21,10 @@ func RegisterRoutes(r *gin.Engine) {
 }
 
 func addChannel(request AddChannelRequest) {
-	_, err := db.NewDB("internal/db/mydb.sqlite")
+	// _, err := db.NewDB("internal/db/mydb.sqlite")
 
-	if err != nil {
-		panic("what")
-	}
+	// if err != nil {
+	// 	panic("what")
+	// }
+	panic("not implemented")
 }

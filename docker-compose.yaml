@@ -18,12 +18,13 @@ services:
 
   migration:
     <<: *image-name
+    env_file: .env.local
     depends_on:
       builder:
         condition: service_completed_successfully
       postgres_db:
         condition: service_healthy
-    command: ["true"]
+    command: ["./migrate"]
 
   monitorer:
     <<: *app-service
