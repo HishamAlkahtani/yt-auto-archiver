@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/HishamAlkahtani/yt-auto-archiver/internal/model"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -34,26 +35,26 @@ func NewDB(dbPath string) (*DB, error) {
 	return &DB{DB: sqlDb}, nil
 }
 
-func (db *DB) UpdateVideo(vid *Video) error {
+func (db *DB) UpdateVideo(vid *model.Video) error {
 	return nil
 }
 
-func (db *DB) GetVideosByChannelAndStatus(channelId string, status VideoStatus) ([]Video, error) {
+func (db *DB) GetVideosByChannelAndStatus(channelId string, status model.VideoStatus) ([]model.Video, error) {
 	return nil, nil
 }
 
-func (db *DB) GetVideosByChannel(channelId string) ([]Video, error) {
+func (db *DB) GetVideosByChannel(channelId string) ([]model.Video, error) {
 	return nil, nil
 }
 
-func (db *DB) GetVideo(videoId string) (*Video, error) {
+func (db *DB) GetVideo(videoId string) (*model.Video, error) {
 	return nil, nil
 }
 
-func (db *DB) UpdateChannel(channel *Channel) error {
+func (db *DB) UpdateChannel(channel *model.Channel) error {
 	return nil
 }
 
-func (db *DB) GetChannel(channelId string) (*Channel, error) {
+func (db *DB) GetChannel(channelId string) (*model.Channel, error) {
 	return nil, nil
 }

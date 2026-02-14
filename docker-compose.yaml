@@ -1,0 +1,62 @@
+x-image-name: &image-name
+  image: yt-archiver:latest
+
+x-app-service: &app-service
+    <<: *image-name
+    env_file: .env.local
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+      migration:
+        condition: service_completed_successfully
+
+services:
+  builder: # fake service that builds and exits.
+    <<: *image-name
+    build: .
+    command: ["true"]
+
+  migration:
+    <<: *image-name
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+      postgres_db:
+        condition: service_healthy
+    command: ["true"]
+
+  monitorer:
+    <<: *app-service
+    command: ["./monitorer"]
+
+  archiver:
+    <<: *app-service
+    command: ["./archiver"]
+
+  server:
+    <<: *app-service
+    command: ["./server"]
+  verifier:
+    <<: *app-service
+    command: ["./verifier"]
+      
+
+  postgres_db:
+    image: postgres:17-alpine
+    container_name: yt-archiver-postgres-db
+
+    env_file:
+      - .env.local     
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+
+volumes:
+  db_data:
