@@ -1,0 +1,34 @@
+package handler
+
+/*
+For API endpoints to manage download queue (add channels, videos, playlists)
+*/
+
+// import (
+// 	"github.com/gin-gonic/gin"
+// )
+
+// type AddChannelRequest struct {
+// 	ChannelId string `json:"channel_id" bindi-ng:"required"`
+// }
+
+// func RegisterRoutes(r *gin.Engine) {
+// 	var request AddChannelRequest
+
+// 	r.POST("/add-channel", func(c *gin.Context) {
+// 		if err := c.ShouldBindJSON(&request); err != nil {
+// 			c.JSON(400, gin.H{"error": err.Error()})
+// 		}
+
+// 		addChannel(request)
+// 	})
+// }
+
+// func addChannel(request AddChannelRequest) {
+// 	// _, err := db.NewDB("internal/db/mydb.sqlite")
+
+// 	// if err != nil {
+// 	// 	panic("what")
+// 	// }
+// 	panic("not implemented")
+// }

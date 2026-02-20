@@ -17,8 +17,8 @@ RUN chmod +x ./bin/monitorer
 RUN go build -o ./bin/archiver ./cmd/archiver
 RUN chmod +x ./bin/archiver
 
-RUN go build -o ./bin/server ./cmd/server
-RUN chmod +x ./bin/server
+RUN go build -o ./bin/api ./cmd/api
+RUN chmod +x ./bin/api
 
 RUN go build -o ./bin/verifier ./cmd/verifier
 RUN chmod +x ./bin/verifier
@@ -44,7 +44,7 @@ COPY --from=builder /app/bin/monitorer ./monitorer
 
 COPY --from=builder /app/bin/archiver ./archiver
 
-COPY --from=builder /app/bin/server ./server
+COPY --from=builder /app/bin/api ./api
 
 COPY --from=builder /app/bin/verifier ./verifier
 

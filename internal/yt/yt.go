@@ -20,10 +20,9 @@ type YtClient struct {
 type ytDlpOutput struct {
 	exitCode int
 	stdout   string
-	stderr   string
+	stderr   string //nolint:unused
 }
 
-// TODO: refactor this to use ytDlpOutput
 func NewYtClient(browserName *string, log *zap.SugaredLogger) (*YtClient, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -40,11 +39,7 @@ func NewYtClient(browserName *string, log *zap.SugaredLogger) (*YtClient, error)
 		return nil, fmt.Errorf("yt-dlp --version returned unexpected output: %s", string(output))
 	}
 
-	var browserCookies bool = false
-
-	if browserName != nil {
-		browserCookies = true
-	}
+	browserCookies := browserName != nil
 
 	return &YtClient{
 		browserName:    browserName,
