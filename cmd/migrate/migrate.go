@@ -4,7 +4,7 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/HishamAlkahtani/yt-auto-archiver/internal/db/migrate"
+	"github.com/HishamAlkahtani/yt-auto-archiver/internal/migrate"
 )
 
 func main() {

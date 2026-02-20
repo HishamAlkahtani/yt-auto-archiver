@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/HishamAlkahtani/yt-auto-archiver/internal/db"
+	"github.com/HishamAlkahtani/yt-auto-archiver/internal/pkg/db"
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	"github.com/golang-migrate/migrate/v4/source/iofs"

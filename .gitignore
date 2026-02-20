@@ -5,6 +5,9 @@
 *.db-shm
 /data/
 
+coverage.out
 TODO.md
 
 .env.local
+
+/notes/*
